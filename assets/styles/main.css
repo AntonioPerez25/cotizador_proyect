@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    padding: 20px;
+}
+
+h3 {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container_charges {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.container_hours {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.container_payments {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.charges,
+.hours_dedicated,
+.hours_total,
+.monthly_plan,
+.hours_costs {
+    border: 1px solid #d6d6db;
+    border-collapse: collapse;
+    text-align: center;
+    box-shadow: 0 0 10px rgb(209, 209, 219);
+    font-family: "Montserrat", sans-serif;
+    table-layout: fixed;
+    background: rgba(207, 220, 233, 0.144);
+}
+
+.hours_total,
+.monthly_plan,
+.hours_costs {
+    width: 250px;
+}
+
+/* ! MODIFICAR */
+.charges th,
+.hours_dedicated th,
+.hours_total th,
+.monthly_plan th,
+.hours_costs th {
+    border: 1px solid #d6d6db;
+    padding: 3px 5px;
+    font-size: 12px;
+    width: 120px;
+}
+
+.default_th {
+    color: rgb(56, 99, 170);
+}
+
+.cell_esc,
+.td_hour_esc,
+.td_price_esc,
+.td_price_iva esc {
+    color: rgb(0, 133, 0);
+}
+
+.cell_cli,
+.td_hour_cli,
+.td_price_cli,
+.td_price_iva cli {
+    color: rgb(182, 103, 0);
+}
+
+.cell_cap,
+.td_hour_cap,
+.td_price_cap,
+.td_price_iva cap {
+    color: rgb(155, 0, 0);
+}
+
+.charges tr:hover {
+    background: rgba(233, 239, 247, 0.908);
+}
+
+.charges .total {
+    color: red;
+}
+
+/* ! MODIFICAR */
+.charges td,
+.hours_dedicated td,
+.hours_total td,
+.monthly_plan td,
+.hours_costs td {
+    border: 1px solid #d6d6db;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 600;
+
+    &:hover {
+        color: rgb(146, 42, 42);
+        font-weight: 700;
+        background: rgba(200, 222, 250, 0.41);
+    }
+}
+
+/* ! MODIFICAR */
+.input_cell {
+    width: 95%;
+    border: none;
+    outline: none;
+    background: #ffffff;
+    color: #1d6eac;
+    font-weight: 600;
+    border-radius: 3px;
+    padding-left: 5px;
+}
+
+.btn_add {
+    width: 100%;
+    height: 25px;
+    font-weight: 600;
+    border: none;
+    background: rgba(207, 220, 233, 0.205);
+    color: rgb(192, 192, 192);
+    cursor: pointer;
+    box-shadow: 0 5px 5px rgb(209, 209, 219);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    &:hover {
+        color: rgb(141, 141, 141);
+        background: rgba(207, 220, 233, 0.178);
+    }
+}
+
+#select_charges {
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+@media print {
+
+    /* Ocultar botones y otros elementos innecesarios */
+    .btn_add {
+        display: none;
+    }
+
+    /* Ajustar los márgenes y tamaños de fuente */
+    body {
+        margin: 0;
+        padding: 1cm;
+        font-size: 12pt;
+    }
+
+    /* Asegurar que las tablas utilicen el 100% del ancho de la página */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1cm;
+    }
+
+    /* Estilos para las celdas y bordes */
+    th,
+    td {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+    }
+
+    /* Títulos y captions con mayor visibilidad */
+    caption {
+        font-size: 1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Optimizar las tablas para la impresión */
+    .charges,
+    .costs,
+    .hours_dedicated {
+        page-break-inside: avoid;
+    }
+
+    /* Eliminar fondos y colores no esenciales */
+    body,
+    th,
+    td {
+        background-color: white;
+        color: black;
+    }
+
+    /* Estilos específicos para las tablas de datos */
+    .charges th,
+    .costs th,
+    .hours_dedicated th {
+        background-color: #f0f0f0;
+    }
+}
