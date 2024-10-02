@@ -80,21 +80,21 @@ h3 {
 .cell_esc,
 .td_hour_esc,
 .td_price_esc,
-.td_price_iva esc {
+.td_price_iva_esc {
     color: rgb(0, 133, 0);
 }
 
 .cell_cli,
 .td_hour_cli,
 .td_price_cli,
-.td_price_iva cli {
+.td_price_iva_cli {
     color: rgb(182, 103, 0);
 }
 
 .cell_cap,
 .td_hour_cap,
 .td_price_cap,
-.td_price_iva cap {
+.td_price_iva_cap {
     color: rgb(155, 0, 0);
 }
 
