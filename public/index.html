@@ -73,18 +73,55 @@
             </div>
             <div class="container_hours">
                 <div>
-                    <table class="hours_dedicated">
+                    <table class="phases">
                         <thead>
                             <tr>
                                 <th class="default_th">Fases</th>
-                                <th class="cell_esc th">H/Escritorio</th>
-                                <th class="cell_cli th">H/Cliente</th>
-                                <th class="cell_cap th">H/Capacitación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>Cargo</td>
+                            </tr>
+                            <tr>
+                                <td>Análisis</td>
+                            </tr>
+                            <tr>
+                                <td>Diseño</td>
+                            </tr>
+                            <tr>
+                                <td>Desarrollo</td>
+                            </tr>
+                            <tr>
+                                <td>Implementación</td>
+                            </tr>
+                            <tr>
+                                <td>Mantenimiento</td>
+                            </tr>
+                            <tr>
+                                <td>Horas totales</td>
+                            </tr>
+                            <tr>
+                                <td>Costo sin IVA</td>
+                            </tr>
+                            <tr>
+                                <td>Costo con IVA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="btn_add_charge" style="position: absolute;">Agregar Cargo</button>
+                </div>
+                <div id="container_hours_dedicated">
+                    <table class="hours_dedicated">
+                        <thead>
+                            <tr>
+                                <th class="cell_esc th">H/Esc</th>
+                                <th class="cell_cli th">H/Cli</th>
+                                <th class="cell_cap th">H/Cap</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_body_HC">
+                            <tr>
                                 <td colspan="3">
                                     <select name="charges" id="select_charges">
                                         <option value="">Selecciona el cargo</option>
@@ -92,49 +129,41 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Análisis</td>
                                 <td class="td_hours_esc" contenteditable="true"></td>
                                 <td class="td_hours_cli" contenteditable="true"></td>
                                 <td class="td_hours_cap" contenteditable="true"></td>
                             </tr>
                             <tr>
-                                <td>Diseño</td>
                                 <td class="td_hours_esc" contenteditable="true"></td>
                                 <td class="td_hours_cli" contenteditable="true"></td>
                                 <td class="td_hours_cap" contenteditable="true"></td>
                             </tr>
                             <tr>
-                                <td>Desarrollo</td>
                                 <td class="td_hours_esc" contenteditable="true"></td>
                                 <td class="td_hours_cli" contenteditable="true"></td>
                                 <td class="td_hours_cap" contenteditable="true"></td>
                             </tr>
                             <tr>
-                                <td>Implementación</td>
                                 <td class="td_hours_esc" contenteditable="true"></td>
                                 <td class="td_hours_cli" contenteditable="true"></td>
                                 <td class="td_hours_cap" contenteditable="true"></td>
                             </tr>
                             <tr>
-                                <td>Mantenimiento</td>
                                 <td class="td_hours_esc" contenteditable="true"></td>
                                 <td class="td_hours_cli" contenteditable="true"></td>
                                 <td class="td_hours_cap" contenteditable="true"></td>
                             </tr>
                             <tr>
-                                <td>Horas totales</td>
                                 <td class="hours_esc"></td>
                                 <td class="hours_cli"></td>
                                 <td class="hours_cap"></td>
                             </tr>
                             <tr>
-                                <td>Costo sin IVA</td>
                                 <td class="no_iva_esc"></td>
                                 <td class="no_iva_cli"></td>
                                 <td class="no_iva_cap"></td>
                             </tr>
                             <tr>
-                                <td>Costo con IVA</td>
                                 <td class="iva_esc"></td>
                                 <td class="iva_cli"></td>
                                 <td class="iva_cap"></td>

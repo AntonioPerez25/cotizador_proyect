@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableBodyCharges = document.getElementById('table_body_charges');
     const totalSalaryCell = document.querySelector('.total');
     const averageCell = document.querySelector('.average');
-    const hoursLabCell = document.querySelector('.hours_lab');
-    const selectCharges = document.getElementById('select_charges'); // Select para los cargos
+    const selectCharges = document.getElementById('select_charges');
 
     // Selección de celdas de horas y precios
     const totalHoursCells = {
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const salaryXHour = salary / hoursLab;
         row.querySelector('.td_salary_x_hour').textContent = formatterPesos.format(salaryXHour);
 
-        const nomina = ((salary / totalSalary) * 100).toFixed(0);
+        const nomina = ((salary / totalSalary) * 100).toFixed(1);
         row.querySelector('.td_nomina').textContent = nomina + '%';
 
         const manuMonth = (average * (nomina / 100)).toFixed(2);
@@ -72,6 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
         row.querySelector('.td_price_iva_cli').textContent = formatterPesos.format(priceCli * 1.16);
         row.querySelector('.td_price_cap').textContent = formatterPesos.format(priceCap);
         row.querySelector('.td_price_iva_cap').textContent = formatterPesos.format(priceCap * 1.16);
+
+        // Cálculos no IVA y con IVA para esc, cli y cap
+        const hoursEsc = parseFloat(document.querySelector('.hours_esc').textContent) || 0;
+        const hoursCli = parseFloat(document.querySelector('.hours_cli').textContent) || 0;
+        const hoursCap = parseFloat(document.querySelector('.hours_cap').textContent) || 0;
+
+        const noIvaEsc = hoursEsc * (priceEsc * 1.16);
+        const noIvaCli = hoursCli * (priceCli * 1.16);
+        const noIvaCap = hoursCap * (priceCap * 1.16);
+
+        const ivaEsc = noIvaEsc * 1.16;
+        const ivaCli = noIvaCli * 1.16;
+        const ivaCap = noIvaCap * 1.16;
+
+        // Asignar valores a las celdas correspondientes
+        document.querySelector('.no_iva_esc').textContent = formatterPesos.format(noIvaEsc);
+        document.querySelector('.no_iva_cli').textContent = formatterPesos.format(noIvaCli);
+        document.querySelector('.no_iva_cap').textContent = formatterPesos.format(noIvaCap);
+
+        document.querySelector('.iva_esc').textContent = formatterPesos.format(ivaEsc);
+        document.querySelector('.iva_cli').textContent = formatterPesos.format(ivaCli);
+        document.querySelector('.iva_cap').textContent = formatterPesos.format(ivaCap);
     };
 
     const updateTotalSalary = () => {
@@ -92,32 +113,48 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSelectCharges(); // Actualiza el select después de calcular todas las filas
     };
 
-    function updateSelectCharges() {
-        // Limpiar el <select>
-        selectCharges.innerHTML = '<option value="">Selecciona el cargo</option>';
-
-        // Obtener los cargos de la tabla
-        const rows = tableBodyCharges.getElementsByTagName("tr");
-        const chargeSet = new Set(); // Usar un Set para evitar duplicados
-
-        for (let i = 0; i < rows.length - 1; i++) { // Excluir la fila de total
-            const chargeCell = rows[i].getElementsByClassName("td_charge")[0];
-            const chargeValue = chargeCell.innerText.trim();
-            if (chargeValue) {
-                chargeSet.add(chargeValue); // Agregar el cargo al Set
-                console.log(chargeSet);
-            }
-        }
-
-        // Añadir opciones al select
-        chargeSet.forEach(chargeValue => {
-            const option = document.createElement("option");
-            option.value = chargeValue;
-            option.innerText = chargeValue;
-            selectCharges.appendChild(option);
+    const loadJSONData = (data) => {
+        data.forEach(item => {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td class="td_charge" contentEditable="true">${item.charge}</td>
+                <td class="td_salary" contenteditable="true">${item.salary}</td>
+                <td class="td_salary_x_hour"></td>
+                <td class="td_nomina"></td>
+                <td class="td_manu_month"><b></b></td>
+                <td class="td_manu_hour"></td>
+                <td class="td_margin" contenteditable="true">${item.margin}%</td>
+                <td class="td_hour_esc"></td>
+                <td class="td_hour_cli"></td>
+                <td class="td_hour_cap"></td>
+                <td class="td_price_esc"></td>
+                <td class="td_price_iva_esc"></td>
+                <td class="td_price_cli"></td>
+                <td class="td_price_iva_cli"></td>
+                <td class="td_price_cap"></td>
+                <td class="td_price_iva_cap"></td>
+            `;
+            tableBodyCharges.insertBefore(newRow, tableBodyCharges.querySelector('tr:last-child'));
         });
+        updateAllRows(); // Actualizar los cálculos después de cargar los datos
+    };
+
+    const fetchData = async (url, callback) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            const jsonData = await response.json();
+            callback(jsonData);
+        } catch (error) {
+            console.error("Error al recuperar datos", error);
+        }
     }
 
+    fetchData('/data/content.json', (jsonData) => {
+        loadJSONData(jsonData.data);
+    });
 
     const addRowCharges = () => {
         const newRow = document.createElement('tr');
@@ -144,6 +181,30 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAllRows();
         updateSelectCharges();
     };
+
+    document.getElementById('btn_add_charge').addEventListener('click', function () {
+        var originalDiv = document.getElementById('container_hours_dedicated');
+        var newDiv = originalDiv.cloneNode(true);
+
+        var editableCells = newDiv.querySelectorAll('[contenteditable="true"]');
+        editableCells.forEach(function (cell) {
+            cell.textContent = '';
+        });
+        document.getElementById('container_hours_dedicated').appendChild(newDiv);
+    });
+
+    function updateSelectCharges() {
+        selectCharges.innerHTML = '<option value="">Selecciona el cargo</option>';
+        fetchData('/data/content.json', (jsonData) => {
+            let arrCharge = jsonData.data;
+            arrCharge.forEach(item => {
+                let option = document.createElement('option');
+                option.value = item.charge;
+                option.textContent = item.charge;
+                selectCharges.appendChild(option);
+            });
+        });
+    }
 
     const assignEditableEvent = (cells = []) => {
         cells.forEach(cell => {

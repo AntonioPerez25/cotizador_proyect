@@ -42,6 +42,7 @@ h3 {
 }
 
 .charges,
+.phases,
 .hours_dedicated,
 .hours_total,
 .monthly_plan,
@@ -55,6 +56,16 @@ h3 {
     background: rgba(207, 220, 233, 0.144);
 }
 
+.phases,
+.hours_dedicated {
+    box-shadow: none;
+}
+
+#container_hours_dedicated {
+    display: flex;
+    justify-content: center;
+}
+
 .hours_total,
 .monthly_plan,
 .hours_costs {
@@ -63,6 +74,7 @@ h3 {
 
 /* ! MODIFICAR */
 .charges th,
+.phases th,
 .hours_dedicated th,
 .hours_total th,
 .monthly_plan th,
@@ -80,21 +92,24 @@ h3 {
 .cell_esc,
 .td_hour_esc,
 .td_price_esc,
-.td_price_iva_esc {
+.td_price_iva_esc,
+.td_hours_esc {
     color: rgb(0, 133, 0);
 }
 
 .cell_cli,
 .td_hour_cli,
 .td_price_cli,
-.td_price_iva_cli {
+.td_price_iva_cli,
+.td_hours_cli {
     color: rgb(182, 103, 0);
 }
 
 .cell_cap,
 .td_hour_cap,
 .td_price_cap,
-.td_price_iva_cap {
+.td_price_iva_cap,
+.td_hours_cap {
     color: rgb(155, 0, 0);
 }
 
@@ -108,6 +123,7 @@ h3 {
 
 /* ! MODIFICAR */
 .charges td,
+.phases td,
 .hours_dedicated td,
 .hours_total td,
 .monthly_plan td,
@@ -122,6 +138,11 @@ h3 {
         font-weight: 700;
         background: rgba(200, 222, 250, 0.41);
     }
+}
+
+.phases td,
+.hours_dedicated td{
+    height: 28px;
 }
 
 /* ! MODIFICAR */
@@ -157,8 +178,9 @@ h3 {
 #select_charges {
     border: none;
     width: 100%;
-    height: 100%;
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 @media print {
