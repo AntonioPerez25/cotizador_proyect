@@ -39,6 +39,7 @@ h3 {
     display: flex;
     justify-content: space-around;
     padding: 10px;
+    align-items: center;
 }
 
 .charges,

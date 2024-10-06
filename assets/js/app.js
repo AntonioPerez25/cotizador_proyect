@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const ivaCli = noIvaCli * 1.16;
         const ivaCap = noIvaCap * 1.16;
 
+        // Cálculo Precio Total y descuento
+        const totalPrice = ivaEsc + ivaCli + ivaCap;
+        const priceDescountFive = totalPrice * 0.95;
+        const priceDescountTen = totalPrice * 0.90;
+
         // Asignar valores a las celdas correspondientes
         document.querySelector('.no_iva_esc').textContent = formatterPesos.format(noIvaEsc);
         document.querySelector('.no_iva_cli').textContent = formatterPesos.format(noIvaCli);
@@ -93,6 +98,35 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.iva_esc').textContent = formatterPesos.format(ivaEsc);
         document.querySelector('.iva_cli').textContent = formatterPesos.format(ivaCli);
         document.querySelector('.iva_cap').textContent = formatterPesos.format(ivaCap);
+
+        document.querySelector('.cost_total').textContent = formatterPesos.format(totalPrice);
+        document.querySelector('.descount_ten').textContent = formatterPesos.format(priceDescountTen);
+        document.querySelector('.descount_five').textContent = formatterPesos.format(priceDescountFive);
+
+        document.querySelector('.hours_esc').textContent = hoursEsc;
+        document.querySelector('.hours_cli').textContent = hoursCli;
+        document.querySelector('.hours_cap').textContent = hoursCap;
+
+        document.querySelector('.descount_ten_one').textContent = formatterPesos.format(priceDescountTen / 1);
+        document.querySelector('.descount_ten_two').textContent = formatterPesos.format(priceDescountTen / 2);
+        document.querySelector('.descount_ten_three').textContent = formatterPesos.format(priceDescountTen / 3);
+        document.querySelector('.descount_ten_four').textContent = formatterPesos.format(priceDescountTen / 4);
+        document.querySelector('.descount_ten_five').textContent = formatterPesos.format(priceDescountTen / 5);
+        document.querySelector('.descount_ten_six').textContent = formatterPesos.format(priceDescountTen / 6);
+
+        document.querySelector('.descount_five_one').textContent = formatterPesos.format(priceDescountFive / 1);
+        document.querySelector('.descount_five_two').textContent = formatterPesos.format(priceDescountFive / 2);
+        document.querySelector('.descount_five_three').textContent = formatterPesos.format(priceDescountFive / 3);
+        document.querySelector('.descount_five_four').textContent = formatterPesos.format(priceDescountFive / 4);
+        document.querySelector('.descount_five_five').textContent = formatterPesos.format(priceDescountFive / 5);
+        document.querySelector('.descount_five_six').textContent = formatterPesos.format(priceDescountFive / 6);
+
+        document.querySelector('.no_descount_one').textContent = formatterPesos.format(totalPrice / 1);
+        document.querySelector('.no_descount_two').textContent = formatterPesos.format(totalPrice / 2);
+        document.querySelector('.no_descount_three').textContent = formatterPesos.format(totalPrice / 3);
+        document.querySelector('.no_descount_four').textContent = formatterPesos.format(totalPrice / 4);
+        document.querySelector('.no_descount_five').textContent = formatterPesos.format(totalPrice / 5);
+        document.querySelector('.no_descount_six').textContent = formatterPesos.format(totalPrice / 6);
     };
 
     const updateTotalSalary = () => {
@@ -105,6 +139,39 @@ document.addEventListener('DOMContentLoaded', () => {
         totalSalaryCell.textContent = formatterPesos.format(totalSalary);
         return totalSalary;
     };
+
+    const updateTotalHoursEsc = () => {
+        let totalHours = 0;
+        document.querySelectorAll('.hours_total_esc').forEach(cell => {
+            const hours = parseFloat(cell.textContent) || 0;
+            totalHours += hours;
+            cell.textContent = hours;
+        });
+        totalHoursEsc.textContent = totalHours;
+        return totalHours;
+    }
+
+    const updateTotalHoursCli = () => {
+        let totalHours = 0;
+        document.querySelectorAll('.hours_total_cli').forEach(cell => {
+            const hours = parseFloat(cell.textContent) || 0;
+            totalHours += hours;
+            cell.textContent = hours;
+        });
+        totalHoursCli.textContent = totalHours;
+        return totalHours;
+    }
+
+    const updateTotalHoursCap = () => {
+        let totalHours = 0;
+        document.querySelectorAll('.hours_total_cap').forEach(cell => {
+            const hours = parseFloat(cell.textContent) || 0;
+            totalHours += hours;
+            cell.textContent = hours;
+        });
+        totalHoursCap.textContent = totalHours;
+        return totalHours;
+    }
 
     const updateAllRows = () => {
         const rows = tableBodyCharges.querySelectorAll('tr');
@@ -240,6 +307,20 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.hours_esc').innerText = totalEsc.toFixed(0);
         document.querySelector('.hours_cli').innerText = totalCli.toFixed(0);
         document.querySelector('.hours_cap').innerText = totalCap.toFixed(0);
+
+        const totalHrsEsc = Array.from(document.querySelectorAll('.hours_total_esc')).reduce((total, cell) => total + (cell.innerText || 0), 0);
+        const totalHrsCap = Array.from(document.querySelectorAll('.hours_total_cap')).reduce((total, cell) => total + (cell.innerText || 0), 0);
+        const totalHrsCli = Array.from(document.querySelectorAll('.hours_total_cli')).reduce((total, cell) => total + (cell.innerText || 0), 0);
+
+        document.querySelector('.hours_total_esc').innerText = totalHrsEsc.toFixed(0);
+        document.querySelector('.hours_total_cli').innerText = totalHrsCli.toFixed(0);
+        document.querySelector('.hours_total_cap').innerText = totalHrsCap.toFixed(0);
+
+        const totalPrice = Array.from(document.querySelectorAll('.cost_total')).reduce((total, cell) => total + (parseFloat(cell.innerText) || 0), 0);
+
+        document.querySelector('.cost_total').innerText = formatterPesos.format(totalPrice);
+        document.querySelector('.descount_ten').innerText = formatterPesos.format(totalPrice * 0.90);
+        document.querySelector('.descount_five').innerText = formatterPesos.format(totalPrice * 0.95);
     };
 
     // Añade eventos de escucha
@@ -249,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSelectCharges();
 
     // Escuchar cambios en las celdas de horas
-    document.querySelectorAll('.td_hours_esc, .td_hours_cli, .td_hours_cap').forEach(cell => {
+    document.querySelectorAll('.td_hours_esc, .td_hours_cli, .td_hours_cap, .hours_total_esc, .hours_total_cli, .hours_total_cap').forEach(cell => {
         cell.addEventListener('input', updateTotals);
     });
 });
