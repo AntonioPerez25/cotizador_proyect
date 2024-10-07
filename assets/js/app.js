@@ -2,10 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAddRow = document.getElementById('add_row_charges');
     const tableBodyCharges = document.getElementById('table_body_charges');
     const totalSalaryCell = document.querySelector('.total');
+    const totalHoursEscCell = document.querySelector('.hours_total_esc');
+    const totalHoursCapCell = document.querySelector('.hours_total_cli');
+    const totalHoursCliCell = document.querySelector('.hours_total_cap');
     const averageCell = document.querySelector('.average');
     const selectCharges = document.getElementById('select_charges');
+    let precioSeleccionado = 0;
+    let hoursLabFromJSON = 0;
 
-    // Selección de celdas de horas y precios
     const totalHoursCells = {
         esc: document.querySelector('.td_price_esc'),
         cli: document.querySelector('.td_price_cli'),
@@ -18,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         noFac: document.querySelector('.hours_nofac'),
     };
 
-    // Formateadores
     const formatterPesos = new Intl.NumberFormat("es-MX", {
         style: "currency",
         currency: "MXN",
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const calculateRow = (row, totalSalary) => {
+        //! Cálculos primer tabla
         const salaryCell = row.querySelector('.td_salary');
         const salary = parseFloat(salaryCell.textContent) || 0;
         const average = parseFloat(averageCell.textContent) || 0;
@@ -72,25 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
         row.querySelector('.td_price_cap').textContent = formatterPesos.format(priceCap);
         row.querySelector('.td_price_iva_cap').textContent = formatterPesos.format(priceCap * 1.16);
 
-        // Cálculos no IVA y con IVA para esc, cli y cap
+        //! Cálculos para la tabla 2
         const hoursEsc = parseFloat(document.querySelector('.hours_esc').textContent) || 0;
         const hoursCli = parseFloat(document.querySelector('.hours_cli').textContent) || 0;
         const hoursCap = parseFloat(document.querySelector('.hours_cap').textContent) || 0;
 
-        const noIvaEsc = hoursEsc * (priceEsc * 1.16);
-        const noIvaCli = hoursCli * (priceCli * 1.16);
-        const noIvaCap = hoursCap * (priceCap * 1.16);
+        const noIvaEsc = hoursEsc * precioSeleccionado;
+        const noIvaCli = hoursCli * precioSeleccionado;
+        const noIvaCap = hoursCap * precioSeleccionado;
 
         const ivaEsc = noIvaEsc * 1.16;
         const ivaCli = noIvaCli * 1.16;
         const ivaCap = noIvaCap * 1.16;
 
-        // Cálculo Precio Total y descuento
-        const totalPrice = ivaEsc + ivaCli + ivaCap;
-        const priceDescountFive = totalPrice * 0.95;
-        const priceDescountTen = totalPrice * 0.90;
+        document.querySelector('.hours_esc').textContent = hoursEsc;
+        document.querySelector('.hours_cli').textContent = hoursCli;
+        document.querySelector('.hours_cap').textContent = hoursCap;
 
-        // Asignar valores a las celdas correspondientes
         document.querySelector('.no_iva_esc').textContent = formatterPesos.format(noIvaEsc);
         document.querySelector('.no_iva_cli').textContent = formatterPesos.format(noIvaCli);
         document.querySelector('.no_iva_cap').textContent = formatterPesos.format(noIvaCap);
@@ -99,13 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.iva_cli').textContent = formatterPesos.format(ivaCli);
         document.querySelector('.iva_cap').textContent = formatterPesos.format(ivaCap);
 
+        //! Cálculo para la tabla 3 y 4
+        const totalPrice = ivaEsc + ivaCli + ivaCap;
+        const priceDescountFive = totalPrice * 0.95;
+        const priceDescountTen = totalPrice * 0.90;
+
         document.querySelector('.cost_total').textContent = formatterPesos.format(totalPrice);
         document.querySelector('.descount_ten').textContent = formatterPesos.format(priceDescountTen);
         document.querySelector('.descount_five').textContent = formatterPesos.format(priceDescountFive);
 
-        document.querySelector('.hours_esc').textContent = hoursEsc;
-        document.querySelector('.hours_cli').textContent = hoursCli;
-        document.querySelector('.hours_cap').textContent = hoursCap;
 
         document.querySelector('.descount_ten_one').textContent = formatterPesos.format(priceDescountTen / 1);
         document.querySelector('.descount_ten_two').textContent = formatterPesos.format(priceDescountTen / 2);
@@ -140,48 +144,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return totalSalary;
     };
 
-    const updateTotalHoursEsc = () => {
-        let totalHours = 0;
-        document.querySelectorAll('.hours_total_esc').forEach(cell => {
-            const hours = parseFloat(cell.textContent) || 0;
-            totalHours += hours;
-            cell.textContent = hours;
-        });
-        totalHoursEsc.textContent = totalHours;
-        return totalHours;
-    }
-
-    const updateTotalHoursCli = () => {
-        let totalHours = 0;
-        document.querySelectorAll('.hours_total_cli').forEach(cell => {
-            const hours = parseFloat(cell.textContent) || 0;
-            totalHours += hours;
-            cell.textContent = hours;
-        });
-        totalHoursCli.textContent = totalHours;
-        return totalHours;
-    }
-
-    const updateTotalHoursCap = () => {
-        let totalHours = 0;
-        document.querySelectorAll('.hours_total_cap').forEach(cell => {
-            const hours = parseFloat(cell.textContent) || 0;
-            totalHours += hours;
-            cell.textContent = hours;
-        });
-        totalHoursCap.textContent = totalHours;
-        return totalHours;
-    }
-
     const updateAllRows = () => {
         const rows = tableBodyCharges.querySelectorAll('tr');
         const totalSalary = updateTotalSalary();
         rows.forEach(row => calculateRow(row, totalSalary));
-        updateSelectCharges(); // Actualiza el select después de calcular todas las filas
+        updateSelectCharges();
     };
 
-    const loadJSONData = (data) => {
+    const loadJSONData = (data, horas) => {
+        const tableBodyCharges = document.getElementById('table_body_charges');
+        const firstRow = tableBodyCharges.querySelector('tr:first-child');
+        if (firstRow && !firstRow.querySelector('.td_charge').textContent.trim()) {
+            firstRow.remove();
+        }
+
         data.forEach(item => {
+            if (!item.charge || item.salary <= 0) {
+                return;
+            }
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
                 <td class="td_charge" contentEditable="true">${item.charge}</td>
@@ -203,7 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             tableBodyCharges.insertBefore(newRow, tableBodyCharges.querySelector('tr:last-child'));
         });
-        updateAllRows(); // Actualizar los cálculos después de cargar los datos
+
+        // Update the hoursLab cell
+        const hoursLab = horas.hour; // Get the hour value from jsonData.horas
+        hoursCells.lab.textContent = hoursLab; // Set the hours_lab element's text content
+
+        updateAllRows();
+        updateHourCells(); // Call updateHourCells after updating hoursLab
     };
 
     const fetchData = async (url, callback) => {
@@ -213,14 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Error: ${response.statusText}`);
             }
             const jsonData = await response.json();
+            console.log(jsonData.horas); // Log the hours data
             callback(jsonData);
         } catch (error) {
             console.error("Error al recuperar datos", error);
         }
-    }
+    };
 
     fetchData('/data/content.json', (jsonData) => {
-        loadJSONData(jsonData.data);
+        loadJSONData(jsonData.data, jsonData.horas);
     });
 
     const addRowCharges = () => {
@@ -264,11 +251,24 @@ document.addEventListener('DOMContentLoaded', () => {
         selectCharges.innerHTML = '<option value="">Selecciona el cargo</option>';
         fetchData('/data/content.json', (jsonData) => {
             let arrCharge = jsonData.data;
+            let preciosConIVA = {};
+            const hoursLab = parseFloat(hoursCells.lab.textContent) || 174;
             arrCharge.forEach(item => {
                 let option = document.createElement('option');
                 option.value = item.charge;
                 option.textContent = item.charge;
                 selectCharges.appendChild(option);
+                const costoMensual = item.salary;
+                const costoPorHora = costoMensual / 174;
+                const precio = costoPorHora * 13.79;
+                const precioConIVA = precio * 1.16;
+                preciosConIVA[item.charge] = precioConIVA.toFixed(2);
+            });
+            selectCharges.addEventListener('change', function () {
+                const cargoSeleccionado = this.value;
+                precioSeleccionado = parseFloat(preciosConIVA[cargoSeleccionado]) || 0;
+
+                console.log(`Precio + IVA: $${precioSeleccionado.toFixed(2)}`);
             });
         });
     }
@@ -280,14 +280,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateHourCells();
                     updateAllRows();
                 }
-
-                // Agregar este bloque para manejar la entrada en td_charge
                 if (cell.classList.contains('td_charge')) {
                     console.log('Cambio en td_charge:', cell.innerText.trim());
-                    updateSelectCharges(); // Actualiza el select al cambiar el cargo
+                    updateSelectCharges();
                 }
             });
-
             cell.addEventListener('blur', () => {
                 if (cell.classList.contains('td_salary')) {
                     cell.textContent = parseFloat(cell.textContent) || 0;
@@ -308,9 +305,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.hours_cli').innerText = totalCli.toFixed(0);
         document.querySelector('.hours_cap').innerText = totalCap.toFixed(0);
 
-        const totalHrsEsc = Array.from(document.querySelectorAll('.hours_total_esc')).reduce((total, cell) => total + (cell.innerText || 0), 0);
-        const totalHrsCap = Array.from(document.querySelectorAll('.hours_total_cap')).reduce((total, cell) => total + (cell.innerText || 0), 0);
-        const totalHrsCli = Array.from(document.querySelectorAll('.hours_total_cli')).reduce((total, cell) => total + (cell.innerText || 0), 0);
+        const totalHrsEsc = Array.from(document.querySelectorAll('.hours_esc')).reduce((total, cell) => total + (parseFloat(cell.innerText) || 0), 0);
+        const totalHrsCap = Array.from(document.querySelectorAll('.hours_cap')).reduce((total, cell) => total + (parseFloat(cell.innerText) || 0), 0);
+        const totalHrsCli = Array.from(document.querySelectorAll('.hours_cli')).reduce((total, cell) => total + (parseFloat(cell.innerText) || 0), 0);
 
         document.querySelector('.hours_total_esc').innerText = totalHrsEsc.toFixed(0);
         document.querySelector('.hours_total_cli').innerText = totalHrsCli.toFixed(0);
@@ -323,13 +320,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.descount_five').innerText = formatterPesos.format(totalPrice * 0.95);
     };
 
-    // Añade eventos de escucha
     btnAddRow.addEventListener('click', addRowCharges);
     assignEditableEvent(document.querySelectorAll('[contenteditable="true"]'));
     updateHourCells();
     updateSelectCharges();
 
-    // Escuchar cambios en las celdas de horas
     document.querySelectorAll('.td_hours_esc, .td_hours_cli, .td_hours_cap, .hours_total_esc, .hours_total_cli, .hours_total_cap').forEach(cell => {
         cell.addEventListener('input', updateTotals);
     });
