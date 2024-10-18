@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/icons/icon_cotizador.png" type="image/x-icon">
+    <script src="particles.min.js"></script>
+    <title>Inicio de sesión</title>
+</head>
+
+<body>
+    <div class="container_login">
+        <div class="content_left">
+            <div id="particles-js"></div>
+            <div id="container_logo">
+                <img id="img_logo" src="assets/images/ibsg-logo-b.png" alt="logo-ibs">
+            </div>
+        </div>
+        <div class="content_right">
+            <div class="content_all_form">
+                <div class="content_form">
+                    <h3 style="padding: 10px 0;">Inicia Sesión</h3>
+                    <form action="./Model/login.php" method="POST" autocomplete="on" id="form_login">
+                        <div class="form_element">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="usuario@ibsolutionsgroup.com">
+                        </div>
+                        <div class="form_element">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" name="password">
+                        </div>
+                        <div>
+                            <button type="submit" id="btn_submit">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
