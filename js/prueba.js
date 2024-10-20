@@ -558,4 +558,98 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
     //* Fin Codigo modal
+    
+    //* Tabla 2
+    let tableCounter = 1;
+
+    document.getElementById('btn_add_charge').addEventListener('click', function () {
+        const container = document.createElement('div');
+        container.classList.add('table-container');
+        container.setAttribute('id', `container_${tableCounter}`);
+
+        const tableId = `table_${tableCounter}`;
+
+        const tableHTML = `
+        <table id="${tableId}" class="hours_dedicated">
+            <thead>
+                <tr>
+                    <th class="cell_esc th">H/Esc</th>
+                    <th class="cell_cli th">H/Cli</th>
+                    <th class="cell_cap th">H/Cap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">
+                        <select name="charges" id="select_charges_${tableCounter}">
+                            <option value="">Selecciona el cargo</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_hours_esc" contenteditable="true"></td>
+                    <td class="td_hours_cli" contenteditable="true"></td>
+                    <td class="td_hours_cap" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="td_hours_esc" contenteditable="true"></td>
+                    <td class="td_hours_cli" contenteditable="true"></td>
+                    <td class="td_hours_cap" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="td_hours_esc" contenteditable="true"></td>
+                    <td class="td_hours_cli" contenteditable="true"></td>
+                    <td class="td_hours_cap" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="td_hours_esc" contenteditable="true"></td>
+                    <td class="td_hours_cli" contenteditable="true"></td>
+                    <td class="td_hours_cap" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="td_hours_esc" contenteditable="true"></td>
+                    <td class="td_hours_cli" contenteditable="true"></td>
+                    <td class="td_hours_cap" contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <td class="hours_esc"></td>
+                    <td class="hours_cli"></td>
+                    <td class="hours_cap"></td>
+                </tr>
+                <tr>
+                    <td class="no_iva_esc"></td>
+                    <td class="no_iva_cli"></td>
+                    <td class="no_iva_cap"></td>
+                </tr>
+                <tr>
+                    <td class="iva_esc"></td>
+                    <td class="iva_cli"></td>
+                    <td class="iva_cap"></td>
+                </tr>
+            </tbody>
+        </table>
+        `;
+
+        container.innerHTML = tableHTML;
+
+        const eliminarBtn = document.createElement('button');
+        eliminarBtn.textContent = "Eliminar Tabla";
+        eliminarBtn.addEventListener('click', function () {
+            eliminarTabla(tableId); 
+        });
+
+        container.appendChild(eliminarBtn);
+
+        document.getElementById('container_hours_dedicated').appendChild(container);
+
+        tableCounter++;
+    });
+
+    function eliminarTabla(tableId) {
+        const tableContainer = document.getElementById(`container_${tableId.split('_')[1]}`);
+        if (tableContainer) {
+            tableContainer.remove();
+        }
+    }
+    //* Fin Tabla 2
 });
