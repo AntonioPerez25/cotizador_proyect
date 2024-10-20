@@ -1,4 +1,210 @@
+async function obtenerCargos() {
+    try {
+        const response = await fetch('../api/getCharge.php');
+        const data = await response.json();
+
+        if (data.success) {
+            const cargos = data.cargos;
+            mostrarCargosEnTabla(cargos);
+        } else {
+            console.error('Error al obtener los cargos:', data.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function obtenerDatosConfiguracion() {
+    try {
+        const response = await fetch('../api/getConfig.php');
+        const data = await response.json();
+
+        if (data.success) {
+            return data.config;
+        } else {
+            console.error('Error al obtener la configuración:', data.error);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+function mostrarCargosEnTabla(cargos, costo_manufactura, horas_laborales) {
+    const tbody = document.getElementById('table_body_charges');
+    tbody.innerHTML = '';
+
+    let totalSalarios = 0;
+
+    cargos.forEach(cargo => {
+        const salarioNumerico = parseFloat(cargo.salario);
+        totalSalarios += salarioNumerico;
+    });
+
+    cargos.forEach(cargo => {
+        const fila = document.createElement('tr');
+
+        const celdaCargo = document.createElement('td');
+        celdaCargo.textContent = cargo.cargo;
+        celdaCargo.classList.add('td_charge');
+        fila.appendChild(celdaCargo);
+
+        const salarioNumerico = parseFloat(cargo.salario);
+
+        const celdaSalario = document.createElement('td');
+        celdaSalario.textContent = `$${salarioNumerico.toFixed(2)}`;
+        celdaSalario.classList.add('td_salary');
+        fila.appendChild(celdaSalario);
+
+        const celdaSalarioXHora = document.createElement('td');
+        const salarioXHora = (salarioNumerico / horas_laborales).toFixed(2);
+        celdaSalarioXHora.textContent = `$${salarioXHora}`;
+        celdaSalarioXHora.classList.add('td_salary_x_hour');
+        fila.appendChild(celdaSalarioXHora);
+
+        const porcentajeNomina = ((salarioNumerico / totalSalarios) * 100).toFixed(1);
+        const celdaNomina = document.createElement('td');
+        celdaNomina.textContent = `${porcentajeNomina}%`;
+        celdaNomina.classList.add('td_nomina');
+        fila.appendChild(celdaNomina);
+
+        const manuMensual = (costo_manufactura * (salarioNumerico / totalSalarios)).toFixed(2);
+        const celdaManuMensual = document.createElement('td');
+        celdaManuMensual.textContent = `$${manuMensual}`;
+        celdaManuMensual.classList.add('td_manu_mensual');
+        fila.appendChild(celdaManuMensual);
+
+        const manuHora = (manuMensual / horas_laborales).toFixed(2);
+        const celdaManuHora = document.createElement('td');
+        celdaManuHora.textContent = `$${manuHora}`;
+        celdaManuHora.classList.add('td_manu_hora');
+        fila.appendChild(celdaManuHora);
+
+        const margenUtilidad = parseFloat(cargo.margen_utilidad) / 100;
+        const celdaMargen = document.createElement('td');
+        celdaMargen.textContent = `${margenUtilidad}%`;
+        celdaMargen.classList.add('td_margin');
+        fila.appendChild(celdaMargen);
+
+        const horaEsc = (parseFloat(salarioXHora) + parseFloat(manuHora)).toFixed(2);
+        const celdaHoraEsc = document.createElement('td');
+        celdaHoraEsc.textContent = `$${horaEsc}`;
+        celdaHoraEsc.classList.add('td_hora_esc');
+        fila.appendChild(celdaHoraEsc);
+
+        const horaCli = (parseFloat(horaEsc * 2)).toFixed(2);
+        const celdaHoraCli = document.createElement('td');
+        celdaHoraCli.textContent = `$${horaCli}`;
+        celdaHoraCli.classList.add('td_hora_cli');
+        fila.appendChild(celdaHoraCli);
+
+        const horaCap = (parseFloat(horaEsc * 3) + parseFloat(horaCli)).toFixed(2);
+        const celdaHoraCap = document.createElement('td');
+        celdaHoraCap.textContent = `$${horaCap}`;
+        celdaHoraCap.classList.add('td_hora_cap');
+        fila.appendChild(celdaHoraCap);
+
+        const precioEsc = (horaEsc / (1 - margenUtilidad)).toFixed(2);
+        const celdaPrecioEsc = document.createElement('td');
+        celdaPrecioEsc.textContent = `$${precioEsc}`;
+        celdaPrecioEsc.classList.add('td_price_esc');
+        fila.appendChild(celdaPrecioEsc);
+
+        const precioEscIva = (precioEsc * 1.16).toFixed(2);
+        const celdaPrecioEscIva = document.createElement('td');
+        celdaPrecioEscIva.textContent = `$${precioEscIva}`;
+        celdaPrecioEscIva.classList.add('td_price_iva_esc');
+        fila.appendChild(celdaPrecioEscIva);
+
+        const precioCli = (horaCli / (1 - margenUtilidad)).toFixed(2);
+        const celdaPrecioCli = document.createElement('td');
+        celdaPrecioCli.textContent = `$${precioCli}`;
+        celdaPrecioCli.classList.add('td_price_cli');
+        fila.appendChild(celdaPrecioCli);
+
+        const precioCliIva = (precioCli * 1.16).toFixed(2);
+        const celdaPrecioCliIva = document.createElement('td');
+        celdaPrecioCliIva.textContent = `$${precioCliIva}`;
+        celdaPrecioCliIva.classList.add('td_price_iva_cli');
+        fila.appendChild(celdaPrecioCliIva);
+
+        const precioCap = (horaCap / (1 - margenUtilidad)).toFixed(2);
+        const celdaPrecioCap = document.createElement('td');
+        celdaPrecioCap.textContent = `$${precioCap}`;
+        celdaPrecioCap.classList.add('td_price_cap');
+        fila.appendChild(celdaPrecioCap);
+
+        const precioCapIva = (precioCap * 1.16).toFixed(2);
+        const celdaPrecioCapIva = document.createElement('td');
+        celdaPrecioCapIva.textContent = `$${precioCapIva}`;
+        celdaPrecioCapIva.classList.add('td_price_iva_cap');
+        fila.appendChild(celdaPrecioCapIva);
+
+        tbody.appendChild(fila);
+    });
+
+    const filaTotal = document.createElement('tr');
+    const celdaTotalTexto = document.createElement('td');
+    celdaTotalTexto.textContent = 'Total';
+    filaTotal.appendChild(celdaTotalTexto);
+
+    const celdaTotalSalario = document.createElement('td');
+    celdaTotalSalario.textContent = `$${totalSalarios.toFixed(2)}`;
+    celdaTotalSalario.classList.add('td_total');
+    filaTotal.appendChild(celdaTotalSalario);
+
+    tbody.appendChild(filaTotal);
+}
+
+async function obtenerCargosYConfig() {
+    try {
+        const cargosResponse = await fetch('../api/getCharge.php');
+        const cargosData = await cargosResponse.json();
+
+        const config = await obtenerDatosConfiguracion();
+
+        if (cargosData.success && config) {
+            const cargos = cargosData.cargos;
+            const costo_manufactura = parseFloat(config.costo_manufactura);
+            const horas_laborales = parseFloat(config.horas_laborales);
+
+            mostrarCargosEnTabla(cargos, costo_manufactura, horas_laborales);
+            actualizarTablaConDatos(config);
+        } else {
+            console.error('Error al obtener los datos de cargos o configuración');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function actualizarTablaConDatos(config) {
+    if (config) {
+        const costo_manufactura = `${config.costo_manufactura}`;
+        const horas_laborales = `${config.horas_laborales}`;
+
+        document.querySelector('.average').textContent = `$${costo_manufactura}`;
+        document.querySelector('.hours_lab').textContent = `${horas_laborales} hrs`;
+        document.querySelector('.hours_fac').textContent = `${(horas_laborales * 0.8).toFixed(1)} hrs`;
+        document.querySelector('.hours_nofac').textContent = `${(horas_laborales * 0.2).toFixed(1)} hrs`;
+    } else {
+        console.error('No se pudieron cargar los datos de configuración');
+    }
+}
+
+function cargarDatosConfiguracionEnTabla() {
+    obtenerDatosConfiguracion()
+        .then(config => {
+            actualizarTablaConDatos(config);
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    cargarDatosConfiguracionEnTabla();
+    obtenerCargosYConfig();
+
     //* Código modal
     document.getElementById('open_modal').addEventListener('click', function () {
         Swal.fire({
@@ -288,7 +494,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire('Error', 'Hubo un problema al obtener los cargos.', 'error');
             });
     });
-
 
     document.getElementById('btn_modal_edit_other').addEventListener('click', function () {
         fetch('../api/getConfig.php')
