@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', 'ruta/a/tu/log/php_errors.log');
-
 require_once __DIR__ . '/../Model/DB.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
