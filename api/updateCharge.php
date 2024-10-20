@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($input['id_charge']) || !isset($input['cargo']) || !isset($input['salario']) || !isset($input['margen'])) {
+        if (!isset($input['id']) || !isset($input['cargo']) || !isset($input['salario']) || !isset($input['margen'])) {
             throw new Exception("Datos incompletos");
         }
 
-        $id = intval($input['id_charge']);
+        $id = intval($input['id']);
         $cargo = trim($input['cargo']);
         $salario = floatval($input['salario']);
         $margen = floatval($input['margen']);
@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("UPDATE cargos SET cargo = ?, salario = ?, margen_utilidad = ?");
-        $success = $stmt->execute([$cargo, $salario, $margen]);
+        $stmt = $pdo->prepare("UPDATE cargos SET cargo = ?, salario = ?, margen_utilidad = ? WHERE id_cargo = ?");
+        $success = $stmt->execute([$cargo, $salario, $margen, $id]);
 
         if ($success) {
             echo json_encode(['success' => true]);
