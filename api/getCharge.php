@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../Model/DB.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
     try {
         $pdo = (new Database())->connect();
 
