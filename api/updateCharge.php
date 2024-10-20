@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($input['id']) || !isset($input['cargo']) || !isset($input['salario']) || !isset($input['margen'])) {
+        if (!isset($input['id_charge']) || !isset($input['cargo']) || !isset($input['salario']) || !isset($input['margen'])) {
             throw new Exception("Datos incompletos");
         }
 
-        $id = intval($input['id']);
+        $id = intval($input['id_charge']);
         $cargo = trim($input['cargo']);
         $salario = floatval($input['salario']);
         $margen = floatval($input['margen']);
