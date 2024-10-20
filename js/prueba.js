@@ -218,128 +218,139 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-
     document.getElementById('btn_modal_delete_charge').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Eliminar cargo',
-            html: `
-                <select name="select" id="select-id">
-                    <option value="value1">Value 1</option>
-                    <option value="value2" selected>Programador Jr</option>
-                    <option value="value3">Value 3</option>
-                </select>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Eliminar',
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                const password = document.getElementById('password-input').value;
-                if (!password) {
-                    Swal.showValidationMessage('Debes ingresar una contraseña');
-                    return false;
-                }
-                return password;
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const nuevaContrasena = result.value;
+        fetch('../api/getCharge.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const cargos = data.cargos;
 
-                // Enviar la nueva contraseña al servidor con fetch
-                fetch('../Model/reset_password.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ nueva_contrasena: nuevaContrasena })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire('¡Hecho!', 'Tu contraseña ha sido cambiada.', 'success').then(() => {
-                                window.location.href = '../views/cotizador.php'; // Redirige a cotizador
-                            });
-                        } else {
-                            Swal.fire('Error', 'No se pudo cambiar la contraseña', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire('Error', 'Hubo un problema con el servidor.', 'error');
+                    if (!Array.isArray(cargos)) {
+                        console.error('cargos no es un array:', cargos);
+                        Swal.fire('Error', 'Los datos de los cargos no están disponibles.', 'error');
+                        return;
+                    }
+
+                    let selectOptions = '<option value="">Selecciona el cargo</option>';
+                    cargos.forEach(cargo => {
+                        selectOptions += `<option value="${cargo.id_cargo}">${cargo.cargo}</option>`;
                     });
-            }
-        });
 
-        document.getElementById('toggle-password').addEventListener('change', function () {
-            const passwordInput = document.getElementById('password-input');
-            if (this.checked) {
-                passwordInput.type = 'text';
-            } else {
-                passwordInput.type = 'password';
-            }
-        });
+                    Swal.fire({
+                        title: 'Eliminar cargo',
+                        html: `
+                            <select id="select-id" class="swal2-input">
+                                ${selectOptions}
+                            </select>
+                            <br>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Eliminar',
+                        cancelButtonText: 'Cancelar',
+                        preConfirm: () => {
+                            const selectedId = document.getElementById('select-id').value;
+                            console.log(selectedId);
+                            return { id: selectedId };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const { id } = result.value;
+
+                            fetch('../api/deleteCharge.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ id })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log(data);
+                                    if (data.success) {
+                                        Swal.fire('¡Hecho!', 'El cargo ha sido eliminado exitosamente.', 'success')
+                                            .then(() => window.location.reload());
+                                    } else {
+                                        Swal.fire('Error', 'No se pudo eliminar el cargo.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire('Error', 'Hubo un problema con el servidor.', 'error');
+                                });
+                        }
+                    });
+                } else {
+                    Swal.fire('Error', 'No se pudieron obtener los cargos.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Hubo un problema al obtener los cargos.', 'error');
+            });
     });
+
 
     document.getElementById('btn_modal_edit_other').addEventListener('click', function () {
-        Swal.fire({
-            title: 'Modificar datos',
-            html: `
-                <input type="number" id="charge-input" class="swal2-input" placeholder="Horas laborales">
-                <br>
-                <input type="number" id="salary-input" class="swal2-input" placeholder="Costo manufactura">
-                <br>
-                <input type="number" id="margin-input" class="swal2-input" placeholder="Salario">
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Cambiar',
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                const password = document.getElementById('password-input').value;
-                if (!password) {
-                    Swal.showValidationMessage('Debes ingresar una contraseña');
-                    return false;
-                }
-                return password;
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const nuevaContrasena = result.value;
+        fetch('../api/getConfig.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const config = data.config;
 
-                // Enviar la nueva contraseña al servidor con fetch
-                fetch('../Model/reset_password.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ nueva_contrasena: nuevaContrasena })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire('¡Hecho!', 'Tu contraseña ha sido cambiada.', 'success').then(() => {
-                                window.location.href = '../views/cotizador.php'; // Redirige a cotizador
-                            });
-                        } else {
-                            Swal.fire('Error', 'No se pudo cambiar la contraseña', 'error');
+                    Swal.fire({
+                        title: 'Modificar datos',
+                        html: `
+                            <input type="text" id="modify-cost-input" class="swal2-input" placeholder="Hora Laboral" value="${config.horas_laborales}">
+                            <br>
+                            <input type="number" id="modify-hours-input" class="swal2-input" placeholder="Costo manufactura mensual" value="${config.costo_manufactura}">
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Modificar',
+                        cancelButtonText: 'Cancelar',
+                        preConfirm: () => {
+                            const cost = document.getElementById('modify-cost-input').value;
+                            const hour = document.getElementById('modify-hours-input').value;
+
+                            if (!cost || !hour) {
+                                Swal.showValidationMessage('Llena todos los campos correctamente');
+                                return false;
+                            }
+                            return { cost, hour };
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire('Error', 'Hubo un problema con el servidor.', 'error');
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const { cost, hour } = result.value;
+
+                            fetch('../api/updateConfig.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ cost, hour })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire('¡Hecho!', 'Los datos han sido modificados exitosamente.', 'success')
+                                            .then(() => window.location.reload());
+                                    } else {
+                                        Swal.fire('Error', 'No se pudo actualizar los datos.', 'error');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire('Error', 'Hubo un problema con el servidor.', 'error');
+                                });
+                        }
                     });
-            }
-        });
-
-        document.getElementById('toggle-password').addEventListener('change', function () {
-            const passwordInput = document.getElementById('password-input');
-            if (this.checked) {
-                passwordInput.type = 'text';
-            } else {
-                passwordInput.type = 'password';
-            }
-        });
+                } else {
+                    Swal.fire('Error', 'No se pudieron cargar los datos.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Hubo un problema con el servidor.', 'error');
+            });
     });
-
     //* Fin Codigo modal
-
-
 });
