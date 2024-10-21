@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("SELECT id_cargo, cargo, salario, margen_utilidad FROM cargos");
+        $stmt = $pdo->prepare("SELECT * FROM cargos");
         $success = $stmt->execute();
 
         if ($success) {
