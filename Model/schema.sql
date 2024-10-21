@@ -9,7 +9,10 @@ create table cargos (
     id_cargo INT AUTO_INCREMENT PRIMARY KEY,
     cargo VARCHAR (100) NOT NULL,
     salario DECIMAL (10,2) NOT NULL,
-    margen_utilidad DECIMAL (5,2) NOT NULL
+    margen_utilidad DECIMAL (5,2) NOT NULL,
+    precio_iva_esc DECIMAL (10,2),
+    precio_iva_cli DECIMAL (10,2),
+    precio_iva_cap DECIMAL (10,2)
 );
 
 CREATE TABLE configuracion (
