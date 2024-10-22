@@ -52,19 +52,15 @@ try {
             <img src="../assets/images/ibsg-logo-b.png" alt="logo alt" id="logo_alt">
         </div>
         <ul class="sidebar-links">
-            <h4>
+            <h4 class="<?= $user['rol'] == 'admin' ? '' : 'hidden'; ?>">
                 <span>General</span>
                 <div class="menu-separator"></div>
             </h4>
-            <li>
-                <button id="open_modal"><a><span class="material-symbols-outlined"> passkey </span>Cambiar contraseña</a></button>
-            </li>
             <li>
                 <button id="btn_modal_add_charge" class="<?= $user['rol'] == 'admin' ? '' : 'hidden'; ?>">
                     <a><span class="material-symbols-outlined"> person_add </span>Agregar cargo</a>
                 </button>
             </li>
-
             <li>
                 <button id="btn_modal_modify_charge" class="<?= $user['rol'] == 'admin' ? '' : 'hidden'; ?>">
                     <a><span class="material-symbols-outlined"> update </span>Modificar cargo</a>
@@ -84,6 +80,9 @@ try {
                 <span>Cuenta</span>
                 <div class="menu-separator"></div>
             </h4>
+            <li>
+                <button id="open_modal"><a><span class="material-symbols-outlined"> passkey </span>Cambiar contraseña</a></button>
+            </li>
             <li>
                 <a href="../Model/logout.php"><span class="material-symbols-outlined"> logout </span>Salir</a>
             </li>
