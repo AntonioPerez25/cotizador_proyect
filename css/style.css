@@ -1,0 +1,564 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+/*! SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 80px;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+    background: #114e94;
+    padding: 25px 20px;
+    transition: all 0.4s ease;
+}
+
+.sidebar:hover {
+    width: 260px;
+    z-index: 10;
+}
+
+.sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    width: 60px;
+    border-radius: 50%;
+}
+
+#logo_alt {
+    display: none;
+}
+
+.sidebar .sidebar-header h2 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 23px;
+}
+
+.sidebar-links h4 {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 10px 0;
+    position: relative;
+}
+
+.sidebar-links h4 span {
+    opacity: 0;
+    font-size: 15px;
+}
+
+.sidebar:hover .sidebar-links h4 span {
+    opacity: 1;
+}
+
+.sidebar:hover #logo {
+    display: none;
+}
+
+.sidebar:hover #logo_alt {
+    display: block;
+    width: 180px;
+}
+
+.sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    transform: scaleX(1);
+    transform: translateY(-50%);
+    background: #ffffff;
+    transform-origin: right;
+    transition-delay: 0.2s;
+}
+
+.sidebar:hover .sidebar-links .menu-separator {
+    transition-delay: 0s;
+    transform: scaleX(0);
+}
+
+.sidebar-links {
+    list-style: none;
+    margin-top: 20px;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.sidebar-links::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 15px 10px;
+    text-decoration: none;
+    transition: 0.2s ease;
+    font-size: 14px;
+}
+
+.sidebar-links li a:hover {
+    color: #161a2d;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.user-account {
+    margin-top: auto;
+    padding: 12px 10px;
+    margin-left: -10px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    color: #161a2d;
+}
+
+.user-profile img {
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.user-profile h3 {
+    font-size: 0.900rem;
+    font-weight: 600;
+}
+
+.user-profile span {
+    font-size: 0.600rem;
+    font-weight: 600;
+}
+
+.user-detail {
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.sidebar:hover .user-account {
+    background: #fff;
+    border-radius: 4px;
+}
+
+#open_modal,
+#btn_modal_add_charge,
+#btn_modal_modify_charge,
+#btn_modal_delete_charge,
+#btn_modal_edit_other {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/*! Login */
+.container_login {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+}
+
+.content_left {
+    width: 50%;
+    height: 100%;
+    background: #3C629D;
+    position: relative;
+}
+
+#particles-js {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#container_logo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 0 10px 10px;
+}
+
+#img_logo {
+    width: 300px;
+}
+
+.content_right {
+    display: flex;
+    width: 50%;
+    height: 100%;
+}
+
+.content_all_form {
+    width: 100%;
+    display: flex;
+}
+
+.content_form {
+    margin: auto;
+    text-align: center;
+    font-size: 35px;
+    color: #3C629D;
+    width: 80%;
+}
+
+#form_login {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form_element {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-size: 25px;
+    color: #3C629D;
+}
+
+#email,
+#password {
+    border: none;
+    border-bottom: 1px solid rgba(11, 78, 133, 0.667);
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 20px;
+    color: #063940;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+#btn_submit {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #3C629D;
+    color: #fff;
+    font-size: 20px;
+    transition: 0.4s;
+    width: 100%;
+
+    &:hover {
+        background: #fff;
+        outline: 1px solid #3C629D;
+        color: #3C629D;
+    }
+}
+
+/*! Cotizador*/
+main {
+    width: 94%;
+    position: relative;
+    left: 80px;
+    height: 100vh;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    padding: 20px;
+}
+
+h3 {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container_charges {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.container_hours {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.container_payments {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    align-items: center;
+}
+
+.charges,
+.phases,
+.hours_dedicated,
+.hours_total,
+.monthly_plan,
+.hours_costs {
+    border: 1px solid #d6d6db;
+    border-collapse: collapse;
+    text-align: center;
+    box-shadow: 0 0 10px rgb(209, 209, 219);
+    font-family: "Montserrat", sans-serif;
+    table-layout: fixed;
+    background: rgba(207, 220, 233, 0.144);
+}
+
+.phases,
+.hours_dedicated {
+    box-shadow: none;
+}
+
+#container_hours_dedicated {
+    display: flex;
+    justify-content: center;
+}
+
+.hours_total,
+.monthly_plan,
+.hours_costs {
+    width: 250px;
+}
+
+/* ! MODIFICAR */
+.charges th,
+.phases th,
+.hours_dedicated th,
+.hours_total th,
+.monthly_plan th,
+.hours_costs th {
+    border: 1px solid #d6d6db;
+    padding: 3px 5px;
+    font-size: 12px;
+    width: 120px;
+}
+
+.default_th {
+    color: rgb(56, 99, 170);
+}
+
+.cell_esc,
+.td_hour_esc,
+.td_price_esc,
+.td_price_iva_esc,
+.td_hours_esc {
+    color: rgb(0, 133, 0);
+}
+
+.cell_cli,
+.td_hour_cli,
+.td_price_cli,
+.td_price_iva_cli,
+.td_hours_cli {
+    color: rgb(182, 103, 0);
+}
+
+.cell_cap,
+.td_hour_cap,
+.td_price_cap,
+.td_price_iva_cap,
+.td_hours_cap {
+    color: rgb(155, 0, 0);
+}
+
+.charges tr:hover {
+    background: rgba(233, 239, 247, 0.908);
+}
+
+.charges .total {
+    color: red;
+}
+
+#btn_add_charge {
+    position: absolute;
+    background: blue;
+    border: none;
+    padding: 3px 10px;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn_add_charge {
+    position: absolute;
+    background: red;
+    border: none;
+    padding: 3px 10px;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ! MODIFICAR */
+.charges td,
+.phases td,
+.hours_dedicated td,
+.hours_total td,
+.monthly_plan td,
+.hours_costs td {
+    border: 1px solid #d6d6db;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    height: 28px;
+
+    &:hover {
+        color: rgb(146, 42, 42);
+        font-weight: 700;
+        background: rgba(200, 222, 250, 0.41);
+    }
+}
+
+/* ! MODIFICAR */
+.input_cell {
+    width: 95%;
+    border: none;
+    outline: none;
+    background: #ffffff;
+    color: #1d6eac;
+    font-weight: 600;
+    border-radius: 3px;
+    padding-left: 5px;
+}
+
+.btn_add {
+    width: 100%;
+    height: 25px;
+    font-weight: 600;
+    border: none;
+    background: rgba(207, 220, 233, 0.205);
+    color: rgb(192, 192, 192);
+    cursor: pointer;
+    box-shadow: 0 5px 5px rgb(209, 209, 219);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+
+    &:hover {
+        color: rgb(141, 141, 141);
+        background: rgba(207, 220, 233, 0.178);
+    }
+}
+
+#select_charges {
+    border: none;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#btn_edit {
+    width: auto;
+    background: #cf600486;
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    border-radius: 5px;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+#btn_save {
+    width: auto;
+    background: #6edd7786;
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    color: #015714;
+    border-radius: 5px;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+@media print {
+
+    /* Ocultar botones y otros elementos innecesarios */
+    .btn_add {
+        display: none;
+    }
+
+    /* Ajustar los márgenes y tamaños de fuente */
+    body {
+        margin: 0;
+        padding: 1cm;
+        font-size: 12pt;
+    }
+
+    /* Asegurar que las tablas utilicen el 100% del ancho de la página */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1cm;
+    }
+
+    /* Estilos para las celdas y bordes */
+    th,
+    td {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+    }
+
+    /* Títulos y captions con mayor visibilidad */
+    caption {
+        font-size: 1em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Optimizar las tablas para la impresión */
+    .charges,
+    .costs,
+    .hours_dedicated {
+        page-break-inside: avoid;
+    }
+
+    /* Eliminar fondos y colores no esenciales */
+    body,
+    th,
+    td {
+        background-color: white;
+        color: black;
+    }
+
+    /* Estilos específicos para las tablas de datos */
+    .charges th,
+    .costs th,
+    .hours_dedicated th {
+        background-color: #f0f0f0;
+    }
+}
