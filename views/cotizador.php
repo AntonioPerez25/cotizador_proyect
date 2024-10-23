@@ -46,6 +46,8 @@ try {
 </head>
 
 <body>
+    <span id="marca_agua">NO VÁLIDO</span>
+    <img src="../assets/images/logo_ibscd ..png" alt="logo alt" id="logo_print">
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="../assets/images/ibslogo.png" alt="logo" id="logo" />
@@ -199,7 +201,6 @@ try {
                         <button id="btn_add_charge">Agregar Cargo</button>
                     </div>
                     <div id="container_hours_dedicated">
-
                     </div>
                 </div>
                 <br>
@@ -244,6 +245,7 @@ try {
                     </div>
                     <div>
                         <table class="monthly_plan">
+                            <caption>Plan mensual</caption>
                             <thead>
                                 <tr>
                                     <th></th>
