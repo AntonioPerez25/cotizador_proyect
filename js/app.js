@@ -540,8 +540,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     Swal.fire({
                         title: 'Modificar datos',
                         html: `
+                            <label for="modify-cost-input">Horas laborales</label>
                             <input type="text" id="modify-cost-input" class="swal2-input" placeholder="Hora Laboral" value="${config.horas_laborales}">
-                            <br>
+                            <br><br>
+                            <label for="modify-hours-input">Costo manufactura mensual</label>
                             <input type="number" id="modify-hours-input" class="swal2-input" placeholder="Costo manufactura mensual" value="${config.costo_manufactura}">
                         `,
                         showCancelButton: true,
@@ -668,6 +670,12 @@ document.addEventListener('DOMContentLoaded', function () {
             cell.addEventListener('input', () => actualizarValores(tableId, cargos));
         });
         tableCounter++;
+
+        tableContainer.querySelectorAll('.td_hours_esc, .td_hours_cli, .td_hours_cap').forEach(cell => {
+            cell.addEventListener('input', function () {
+                this.textContent = this.textContent.replace(/[^0-9]/g, '');
+            });
+        });
     }
 
     window.onload = async function () {
@@ -678,7 +686,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btn_add_charge').addEventListener('click', async function () {
         const cargos = await obtenerCargosX();
     });
-
 
     document.getElementById('btn_add_charge').addEventListener('click', async function () {
         const cargos = await obtenerCargosX(); // Cargar los cargos
