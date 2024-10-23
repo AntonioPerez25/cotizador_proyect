@@ -11,6 +11,15 @@
     display: none;
 }
 
+#marca_agua {
+    display: none;
+}
+
+#logo_print {
+    display: none;
+    background: black;
+}
+
 /*! SIDEBAR */
 .sidebar {
     position: fixed;
@@ -318,6 +327,11 @@ h3 {
     align-items: center;
 }
 
+caption {
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
 .charges,
 .phases,
 .hours_dedicated,
@@ -506,59 +520,154 @@ h3 {
 
 @media print {
 
-    /* Ocultar botones y otros elementos innecesarios */
-    .btn_add {
+    .sidebar,
+    .container_charges,
+    .btn_add_charge,
+    #btn_add_charge {
         display: none;
     }
 
-    /* Ajustar los márgenes y tamaños de fuente */
-    body {
-        margin: 0;
-        padding: 1cm;
-        font-size: 12pt;
-    }
-
-    /* Asegurar que las tablas utilicen el 100% del ancho de la página */
-    table {
+    main {
         width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 1cm;
+        left: 0;
     }
 
-    /* Estilos para las celdas y bordes */
-    th,
-    td {
-        border: 1px solid black;
-        padding: 5px;
-        text-align: left;
+    body {
+        left: 0;
+        text-align: center;
     }
 
-    /* Títulos y captions con mayor visibilidad */
-    caption {
-        font-size: 1em;
+    #marca_agua {
+        display: block;
+        position: absolute;
+        top: 20%;
+        left: -15%;
+        font-size: 220px;
+        text-decoration: underline;
+        color: rgba(0, 0, 0, 0.025);
+        transform: rotate(-50deg);
+        z-index: 10;
+    }
+
+    #logo_print {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    h3 {
+        position: fixed;
+        top: 5%;
+        left: 28%;
+        font-size: 2rem;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
-    /* Optimizar las tablas para la impresión */
-    .charges,
-    .costs,
-    .hours_dedicated {
-        page-break-inside: avoid;
+    caption {
+        color: rgb(70, 104, 143);
+        font-size: 20px;
     }
 
-    /* Eliminar fondos y colores no esenciales */
-    body,
-    th,
-    td {
-        background-color: white;
-        color: black;
+    .container_hours {
+        width: auto;
+        position: absolute;
+        top: 10%;
+        left: 0%;
     }
 
-    /* Estilos específicos para las tablas de datos */
-    .charges th,
-    .costs th,
-    .hours_dedicated th {
-        background-color: #f0f0f0;
+    .phases tbody tr:nth-last-child(2),
+    .phases tbody tr:nth-last-child(1) {
+        display: none;
+    }
+
+    .no_iva_esc,
+    .no_iva_cli,
+    .no_iva_cap {
+        display: none;
+    }
+
+    .iva_esc,
+    .iva_cli,
+    .iva_cap {
+        display: none;
+    }
+
+    #container_hours_dedicated {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .container_payments {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .hours_total {
+        position: fixed;
+        bottom: 23%;
+        left: 0%;
+        width: 45%;
+        height: 22%;
+    }
+
+    .hours_costs {
+        position: fixed;
+        bottom: 23%;
+        right: 0%;
+        width: 45%;
+        height: 22%;
+    }
+
+    .monthly_plan {
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        width: 100%;
+    }
+
+    .phases th,
+    .phases td {
+        background-color: rgb(178, 201, 255);
+        color: rgb(46, 58, 82);
+        font-size: 1rem;
+    }
+
+    select {
+        font-size: 1rem;
+    }
+
+    .hours_dedicated th,
+    .hours_dedicated td {
+        color: rgb(70, 104, 143);
+        font-size: 1rem;
+        padding: 4.5px 0;
+    }
+
+    .hours_total th,
+    .hours_total td {
+        background-color: rgb(178, 201, 255);
+        color: rgb(70, 104, 143);
+        font-size: 1rem;
+    }
+
+    .monthly_plan th,
+    .monthly_plan td {
+        background-color: rgb(178, 201, 255);
+        color: rgb(70, 104, 143);
+        font-size: 1rem;
+        padding: 7px;
+        max-width: 160px;
+    }
+
+    .hours_costs th,
+    .hours_costs td {
+        background-color: rgb(178, 201, 255);
+        color: rgb(70, 104, 143);
+        font-size: 1rem;
+        padding: 10px 2px;
     }
 }
