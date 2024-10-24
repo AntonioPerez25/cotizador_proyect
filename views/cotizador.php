@@ -37,7 +37,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="assets/icons/icon_cotizador.png" type="image/x-icon">
+    <link rel="icon" href="../assets/icons/icon_cotizador.png" type="image/x-icon">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="../js/app.js"></script>
@@ -47,7 +47,7 @@ try {
 
 <body>
     <span id="marca_agua">NO VÁLIDO</span>
-    <img src="../assets/images/logo_ibscd ..png" alt="logo alt" id="logo_print">
+    <img src="../assets/images/logo_ibs.png" alt="logo alt" id="logo_print">
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="../assets/images/ibslogo.png" alt="logo" id="logo" />
