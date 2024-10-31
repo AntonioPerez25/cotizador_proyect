@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     try {
-        $stmt = $pdo->prepare("SELECT * FROM usuarios where email = ?");
+        $stmt = $pdo->prepare("SELECT email, contrasena FROM usuarios where email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
