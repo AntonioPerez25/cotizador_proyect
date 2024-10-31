@@ -1,10 +1,13 @@
 <?php
 require_once __DIR__ . '/../Model/DB.php';
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $input = json_decode(file_get_contents('php://input'), true);
+
+        $email = $_SESSION['usuario'];
 
         if (!isset($input['cargo']) || !isset($input['salario']) || !isset($input['margen'])) {
             throw new Exception("Faltan datos requeridos");
@@ -20,8 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("INSERT INTO cargos (cargo, salario, margen_utilidad) VALUES (?, ?, ?)");
-        $success = $stmt->execute([$cargo, $salario, $margen]);
+        $stmt = $pdo->prepare("SELECT id_area FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $id_area = $stmt->fetchColumn();
+
+        if (!$id_area) {
+            throw new Exception("No se encontró el área para el usuario");
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO cargos (cargo, salario, margen_utilidad, id_area) VALUES (?, ?, ?, ?)");
+        $success = $stmt->execute([$cargo, $salario, $margen, $id_area]);
 
         if ($success) {
             echo json_encode(['success' => true]);
