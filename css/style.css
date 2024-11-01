@@ -180,7 +180,8 @@
 #btn_modal_add_charge,
 #btn_modal_modify_charge,
 #btn_modal_delete_charge,
-#btn_modal_edit_other {
+#btn_modal_edit_other,
+#btn_view_instructions {
     background: transparent;
     border: none;
     cursor: pointer;
@@ -353,8 +354,9 @@ caption {
 }
 
 #container_hours_dedicated {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(100px, 1fr));
+    gap: 25px 5px;
 }
 
 .hours_total,
@@ -446,6 +448,7 @@ caption {
     font-size: 12px;
     font-weight: 600;
     height: 28px;
+    overflow: hidden;
 
     &:hover {
         color: rgb(146, 42, 42);
@@ -560,9 +563,10 @@ caption {
         position: fixed;
         top: 5%;
         left: 28%;
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: bold;
         margin-bottom: 10px;
+        color: #000000c4;
     }
 
     caption {
@@ -571,10 +575,18 @@ caption {
     }
 
     .container_hours {
-        width: auto;
         position: absolute;
-        top: 10%;
-        left: 0%;
+        top: 7.5%;
+        left: -1%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    #container_hours_dedicated {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        gap: 10px 15px;
     }
 
     .phases tbody tr:nth-last-child(2),
@@ -594,11 +606,6 @@ caption {
         display: none;
     }
 
-    #container_hours_dedicated {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    }
-
     .container_payments {
         display: flex;
         flex-wrap: wrap;
@@ -608,18 +615,18 @@ caption {
 
     .hours_total {
         position: fixed;
-        bottom: 23%;
+        bottom: 17.5%;
         left: 0%;
         width: 45%;
-        height: 22%;
+        height: 18%;
     }
 
     .hours_costs {
         position: fixed;
-        bottom: 23%;
+        bottom: 17.5%;
         right: 0%;
         width: 45%;
-        height: 22%;
+        height: 18%;
     }
 
     .monthly_plan {
@@ -633,41 +640,45 @@ caption {
     .phases td {
         background-color: rgb(178, 201, 255);
         color: rgb(46, 58, 82);
-        font-size: 1rem;
+        font-size: 1.2rem;
+        overflow: hidden;
     }
 
     select {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .hours_dedicated th,
     .hours_dedicated td {
         color: rgb(70, 104, 143);
-        font-size: 1rem;
+        font-size: 1.2rem;
         padding: 4.5px 0;
+        overflow: hidden;
     }
 
     .hours_total th,
     .hours_total td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1rem;
+        font-size: 1.2rem;
+        overflow: hidden;
     }
 
     .monthly_plan th,
     .monthly_plan td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1rem;
-        padding: 7px;
+        font-size: 1.2rem;
         max-width: 160px;
+        overflow: hidden;
     }
 
     .hours_costs th,
     .hours_costs td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1rem;
+        font-size: 1.2rem;
         padding: 10px 2px;
+        overflow: hidden;
     }
 }
