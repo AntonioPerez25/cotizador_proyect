@@ -78,6 +78,11 @@ try {
                     <a><span class="material-symbols-outlined"> edit_note </span>Editar otros</a>
                 </button>
             </li>
+            <li>
+                <button id="btn_view_instructions">
+                    <a href="../react-preguntas-tipicas.pdf" target="_blank"><span class="material-symbols-outlined"> quick_reference </span>Instrucciones</a>
+                </button>
+            </li>
             <h4>
                 <span>Cuenta</span>
                 <div class="menu-separator"></div>
