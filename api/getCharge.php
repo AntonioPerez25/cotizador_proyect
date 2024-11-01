@@ -1,13 +1,20 @@
 <?php
 require_once __DIR__ . '/../Model/DB.php';
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $email = $_SESSION['usuario'];
 
     try {
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("SELECT * FROM cargos");
-        $success = $stmt->execute();
+        $stmt = $pdo->prepare("SELECT id_area FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $id_area = $stmt->fetchColumn();
+
+        $stmt = $pdo->prepare("SELECT * FROM cargos WHERE id_area = ?");
+        $success = $stmt->execute([$id_area]);
 
         if ($success) {
             $cargos = $stmt->fetchAll(PDO::FETCH_ASSOC);
