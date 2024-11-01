@@ -1,12 +1,24 @@
 <?php
 require_once __DIR__ . '/../Model/DB.php';
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $email = $_SESSION['usuario'];
 
     try {
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->query("SELECT horas_laborales, costo_manufactura FROM configuracion WHERE id_config = 1");
+        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $id_usuario = $stmt->fetchColumn();
+
+        if (!$id_usuario) {
+            throw new Exception("Usuario no encontrado");
+        }
+
+        $stmt = $pdo->prepare("SELECT horas_laborales, costo_manufactura FROM configuracion WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);
         $config = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($config) {
