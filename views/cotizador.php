@@ -80,7 +80,7 @@ try {
             </li>
             <li>
                 <button id="btn_view_instructions">
-                    <a href="../react-preguntas-tipicas.pdf" target="_blank"><span class="material-symbols-outlined"> quick_reference </span>Instrucciones</a>
+                    <a href="../manual_usuario.pdf" target="_blank"><span class="material-symbols-outlined"> quick_reference </span>Instrucciones</a>
                 </button>
             </li>
             <h4>
