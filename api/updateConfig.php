@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . '/../Model/DB.php';
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $email = $_SESSION['usuario'];
 
     try {
         $input = json_decode(file_get_contents('php://input'), true);
@@ -19,8 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("UPDATE configuracion SET horas_laborales = ?, costo_manufactura = ? WHERE id_config = 1");
-        $success = $stmt->execute([$cost, $hour]);
+        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE email = ?");
+        $stmt->execute([$email]);
+        $id_usuario = $stmt->fetchColumn();
+
+        $stmt = $pdo->prepare("UPDATE configuracion SET horas_laborales = ?, costo_manufactura = ? WHERE id_usuario = ?");
+        $success = $stmt->execute([$cost, $hour, $id_usuario]);
 
         if ($success) {
             echo json_encode(['success' => true]);
