@@ -28,8 +28,8 @@ CREATE TABLE configuracion (
     id_config INT AUTO_INCREMENT PRIMARY KEY,
     horas_laborales INT NOT NULL,
     costo_manufactura DECIMAL(10, 2) NOT NULL,
-    id_usuario INT NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+    id_area INT NOT NULL,
+    FOREIGN KEY (id_area) REFERENCES areas(id_area)
 );
 
 USUARIO: coti_ibs
