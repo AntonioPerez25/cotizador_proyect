@@ -22,12 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id_area FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
-        $id_usuario = $stmt->fetchColumn();
+        $id_area = $stmt->fetchColumn();
 
-        $stmt = $pdo->prepare("UPDATE configuracion SET horas_laborales = ?, costo_manufactura = ? WHERE id_usuario = ?");
-        $success = $stmt->execute([$cost, $hour, $id_usuario]);
+        $stmt = $pdo->prepare("UPDATE configuracion SET horas_laborales = ?, costo_manufactura = ? WHERE id_area = ?");
+        $success = $stmt->execute([$cost, $hour, $id_area]);
 
         if ($success) {
             echo json_encode(['success' => true]);

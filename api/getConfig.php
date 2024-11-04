@@ -9,16 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $pdo = (new Database())->connect();
 
-        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id_area FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
-        $id_usuario = $stmt->fetchColumn();
+        $id_area = $stmt->fetchColumn();
 
-        if (!$id_usuario) {
+        if (!$id_area) {
             throw new Exception("Usuario no encontrado");
         }
 
-        $stmt = $pdo->prepare("SELECT horas_laborales, costo_manufactura FROM configuracion WHERE id_usuario = ?");
-        $stmt->execute([$id_usuario]);
+        $stmt = $pdo->prepare("SELECT horas_laborales, costo_manufactura FROM configuracion WHERE id_area = ?");
+        $stmt->execute([$id_area]);
         $config = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($config) {
