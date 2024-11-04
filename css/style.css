@@ -365,7 +365,6 @@ caption {
     width: 250px;
 }
 
-/* ! MODIFICAR */
 .charges th,
 .phases th,
 .hours_dedicated th,
@@ -436,7 +435,6 @@ caption {
     cursor: pointer;
 }
 
-/* ! MODIFICAR */
 .charges td,
 .phases td,
 .hours_dedicated td,
@@ -448,7 +446,6 @@ caption {
     font-size: 12px;
     font-weight: 600;
     height: 28px;
-    overflow: hidden;
 
     &:hover {
         color: rgb(146, 42, 42);
@@ -457,7 +454,13 @@ caption {
     }
 }
 
-/* ! MODIFICAR */
+.hours_dedicated tbody tr td {
+    max-width: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .input_cell {
     width: 95%;
     border: none;
