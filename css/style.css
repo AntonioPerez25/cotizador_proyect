@@ -565,7 +565,7 @@ caption {
     h3 {
         position: fixed;
         top: 5%;
-        left: 28%;
+        left: 30%;
         font-size: 1.8rem;
         font-weight: bold;
         margin-bottom: 10px;
@@ -579,7 +579,7 @@ caption {
 
     .container_hours {
         position: absolute;
-        top: 7.5%;
+        top: 10%;
         left: -1%;
         display: flex;
         justify-content: center;
@@ -618,7 +618,7 @@ caption {
 
     .hours_total {
         position: fixed;
-        bottom: 17.5%;
+        bottom: 20%;
         left: 0%;
         width: 45%;
         height: 18%;
@@ -626,7 +626,7 @@ caption {
 
     .hours_costs {
         position: fixed;
-        bottom: 17.5%;
+        bottom: 22.7%;
         right: 0%;
         width: 45%;
         height: 18%;
@@ -643,18 +643,18 @@ caption {
     .phases td {
         background-color: rgb(178, 201, 255);
         color: rgb(46, 58, 82);
-        font-size: 1.2rem;
+        font-size: 1rem;
         overflow: hidden;
     }
 
     select {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .hours_dedicated th,
     .hours_dedicated td {
         color: rgb(70, 104, 143);
-        font-size: 1.2rem;
+        font-size: 1rem;
         padding: 4.5px 0;
         overflow: hidden;
     }
@@ -663,7 +663,7 @@ caption {
     .hours_total td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1.2rem;
+        font-size: 1rem;
         overflow: hidden;
     }
 
@@ -671,7 +671,7 @@ caption {
     .monthly_plan td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1.2rem;
+        font-size: 1rem;
         max-width: 160px;
         overflow: hidden;
     }
@@ -680,7 +680,7 @@ caption {
     .hours_costs td {
         background-color: rgb(178, 201, 255);
         color: rgb(70, 104, 143);
-        font-size: 1.2rem;
+        font-size: 1rem;
         padding: 10px 2px;
         overflow: hidden;
     }
